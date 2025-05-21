@@ -1,688 +1,453 @@
-{\rtf1\ansi\ansicpg950\cocoartf2822
-\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fnil\fcharset0 Menlo-Regular;\f1\fnil\fcharset136 PingFangTC-Regular;\f2\fnil\fcharset0 AppleColorEmoji;
-}
-{\colortbl;\red255\green255\blue255;\red0\green0\blue0;\red255\green255\blue255;\red203\green203\blue202;
-\red71\green138\blue206;\red141\green213\blue254;\red203\green203\blue202;\red109\green109\blue109;\red194\green125\blue100;
-\red184\green113\blue248;\red212\green212\blue212;\red112\green192\blue130;\red167\green197\blue151;\red109\green115\blue120;
-\red54\green192\blue160;\red245\green123\blue47;\red76\green167\blue134;}
-{\*\expandedcolortbl;;\cssrgb\c0\c0\c0;\cssrgb\c100000\c100000\c100000\c0;\cssrgb\c83502\c83501\c83084;
-\cssrgb\c34146\c61677\c84338;\cssrgb\c61545\c86704\c99884;\cssrgb\c83320\c83320\c83112;\cssrgb\c50307\c50306\c50181;\cssrgb\c80772\c56796\c46790;
-\cssrgb\c77746\c54642\c98035;\cssrgb\c86465\c86464\c86248;\cssrgb\c50437\c78684\c58115;\cssrgb\c71035\c80830\c65726;\cssrgb\c50336\c52696\c54531;
-\cssrgb\c23989\c78963\c69075;\cssrgb\c97756\c56070\c23668;\cssrgb\c35669\c70609\c59512;}
-\paperw11900\paperh16840\margl1440\margr1440\vieww12720\viewh7240\viewkind0
-\deftab720
-\pard\pardeftab720\partightenfactor0
 
-\f0\fs28 \cf2 \cb3 \expnd0\expndtw0\kerning0
-\
-\pard\pardeftab720\partightenfactor0
-\cf2 <!DOCTYPE html>\
-<html lang="zh-TW">\
-<head>\
-    <meta charset="UTF-8">\
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">\
-    <title>
-\f1 \'a4\'6a\'a6\'d2\'a4\'ce\'b2\'a6\'b7\'7e\'ad\'cb\'bc\'c6\'a4\'e9\'ad\'70\'ae\'c9\'be\'b9
-\f0 </title>\
-    <script src="https://cdn.tailwindcss.com"></script>\
-    <style>\
-        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap');\
-\
-        body \{\
-            font-family: 'Noto Sans TC', sans-serif;\
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);\
-            min-height: 100vh;\
-            padding-bottom: 4rem; /* Add padding to prevent content being hidden by potential fixed elements */\
-        \}\
-\
-        .calendar \{\
-            box-shadow: 0 15px 30px rgba(0,0,0,0.1);\
-            transition: all 0.3s ease;\
-        \}\
-\
-        .calendar:hover \{\
-            transform: translateY(-5px);\
-            box-shadow: 0 20px 40px rgba(0,0,0,0.15);\
-        \}\
-\
-        .calendar-header \{\
-            /* Default background color, will be overridden by Tailwind if a mode is active */\
-            background-color: #e74c3c; \
-            border-top-left-radius: 12px;\
-            border-top-right-radius: 12px;\
-        \}\
-\
-        .calendar-body \{\
-            background-color: white;\
-            border-bottom-left-radius: 12px;\
-            border-bottom-right-radius: 12px;\
-        \}\
-\
-        .quote-card \{\
-            background: linear-gradient(45deg, #f3f4f6, #ffffff);\
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);\
-            transition: all 0.3s ease;\
-        \}\
-\
-        .quote-card:hover \{\
-            transform: translateY(-3px);\
-            box-shadow: 0 8px 20px rgba(0,0,0,0.1);\
-        \}\
-\
-        .btn-primary \{\
-            transition: all 0.3s ease;\
-        \}\
-\
-        .btn-primary:hover \{\
-            transform: translateY(-2px);\
-            box-shadow: 0 5px 15px rgba(231, 76, 60, 0.3); /* 
-\f1 \'ac\'f5\'a6\'e2\'ab\'f6\'b6\'73\'b3\'b1\'bc\'76
-\f0  */\
-        \}\
-\
-        .btn-secondary \{\
-            transition: all 0.3s ease;\
-        \}\
-\
-        .btn-secondary:hover \{\
-            transform: translateY(-2px);\
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);\
-        \}\
-\
-        .date-input, .select-input \{ \
-            transition: all 0.3s ease;\
-        \}\
-\
-        .date-input:focus, .select-input:focus \{\
-            border-color: #e74c3c; \
-            box-shadow: 0 0 0 3px rgba(231, 76, 60, 0.25); \
-        \}\
-\
-        @keyframes pulse \{\
-            0% \{ transform: scale(1); \}\
-            50% \{ transform: scale(1.05); \}\
-            100% \{ transform: scale(1); \}\
-        \}\
-\
-        .pulse \{\
-            animation: pulse 2s infinite;\
-        \}\
-\
-        .creator-info \{\
-            background-color: #e9d5ff; \
-            color: #5b21b6; \
-            padding: 0.75rem 1.5rem; \
-            border-radius: 0.5rem; \
-            text-align: center;\
-            font-weight: 500; \
-            margin-bottom: 1.5rem; \
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); \
-        \}\
-    </style>\
-</head>\
-<body class="p-4 md:p-8">\
-    <div class="max-w-3xl mx-auto">\
-        <h1 id="mainHeader" class="text-4xl md:text-5xl font-bold text-center mb-4 text-purple-600">
-\f1 \'a4\'6a\'a6\'d2\'ad\'cb\'bc\'c6\'ad\'70\'ae\'c9\'a4\'e9
-\f0 </h1>\
-        <p class="creator-info text-lg">
-\f1 \'ad\'70\'ae\'c9\'be\'b9\'b3\'d0\'ab\'d8\'a4\'48\'a1\'47
-\f0 Gloria
-\f1 \'a7\'64\'a8\'71\'c4\'f5\'a6\'d1\'ae\'76\'a1\'41
-\f0 Google
-\f1 \'bb\'7b\'c3\'d2\'c1\'bf\'ae\'76\'a1\'41\'ad\'5e\'a4\'e5\'ad\'dd\'a5\'78\'bb\'79\'b1\'d0\'ae\'76
-\f0 </p>\
-\
-        <div class="mb-6 bg-white rounded-lg p-6 shadow-md">\
-            <label for="countdownTypeSelect" class="block text-lg font-medium text-gray-700 mb-2">
-\f1 \'bf\'ef\'be\'dc\'ad\'70\'ae\'c9\'c3\'fe\'ab\'ac\'a1\'47
-\f0 </label>\
-            <select id="countdownTypeSelect" class="select-input w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none text-lg">\
-                <option value="exam" selected>
-\f1 \'a4\'6a\'a6\'d2\'ad\'cb\'bc\'c6\'ad\'70\'ae\'c9\'a4\'e9
-\f0 </option>\
-                <option value="graduation">
-\f1 \'b2\'a6\'b7\'7e\'ad\'cb\'bc\'c6\'ad\'70\'ae\'c9\'a4\'e9
-\f0 </option>\
-                <option value="examToGraduation">
-\f1 \'a4\'6a\'a6\'d2\'a6\'dc\'b2\'a6\'b7\'7e\'a4\'e9\'ad\'cb\'bc\'c6\'ad\'70\'ae\'c9\'a4\'e9
-\f0 </option>\
-            </select>\
-        </div>\
-\
-        <div id="dateInputsContainer" class="mb-8 bg-white rounded-lg p-6 shadow-md">\
-            <div id="dateInput1Group" class="mb-4">\
-                <label id="dateInput1Label" for="dateInput1" class="block text-lg font-medium text-gray-700 mb-2">
-\f1 \'bf\'ef\'be\'dc\'a4\'6a\'a6\'d2\'a4\'e9\'b4\'c1\'a1\'47
-\f0 </label>\
-                <input type="date" id="dateInput1" class="date-input w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none text-lg">\
-            </div>\
-\
-            <div id="dateInput2Group" class="mb-4 hidden"> \
-                <label id="dateInput2Label" for="dateInput2" class="block text-lg font-medium text-gray-700 mb-2">
-\f1 \'bf\'ef\'be\'dc\'b2\'a6\'b7\'7e\'a4\'e9\'b4\'c1\'a1\'47
-\f0 </label>\
-                <input type="date" id="dateInput2" class="date-input w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none text-lg">\
-            </div>\
-\
-            <div class="flex flex-col md:flex-row gap-4">\
-                <button id="startCountdown" class="btn-primary bg-red-500 hover:bg-red-600 text-white font-bold py-3 px-6 rounded-lg w-full md:w-auto flex-grow">
-\f1 \'b6\'7d\'a9\'6c\'ad\'cb\'bc\'c6
-\f0 </button>\
-                <button id="resetCountdown" class="btn-secondary bg-gray-200 hover:bg-gray-300 text-gray-700 font-bold py-3 px-6 rounded-lg w-full md:w-auto flex-grow">
-\f1 \'b2\'4d\'b0\'a3
-\f0 </button>\
-            </div>\
-            <p id="formAlert" class="text-red-500 text-center mt-3 text-sm"></p> \
-        </div>\
-\
-        <div id="countdownDisplay" class="calendar mb-8 rounded-lg overflow-hidden hidden">\
-            <div class="calendar-header p-4 text-center text-white"> <h2 id="countdownCardTitle" class="text-2xl font-bold">
-\f1 \'ad\'cb\'bc\'c6\'ad\'70\'ae\'c9
-\f0 </h2>\
-                <p id="countdownDateString" class="text-lg opacity-90"></p> \
-            </div>\
-            <div class="calendar-body p-8 text-center">\
-                <div class="mb-4">\
-                    <span id="daysLeft" class="text-6xl md:text-8xl font-bold text-red-500 pulse"></span> \
-                    <span class="text-3xl md:text-4xl font-bold text-gray-700">
-\f1 \'a4\'d1
-\f0 </span>\
-                </div>\
-                <p id="countdownTargetText" class="text-lg text-gray-600">
-\f1 \'b6\'5a\'c2\'f7\'a5\'d8\'bc\'d0\'a4\'e9\'b4\'c1\'c1\'d9\'a6\'b3
-\f0 </p>\
-            </div>\
-        </div>\
-\
-        <div id="quoteCard" class="quote-card p-6 rounded-lg mb-8 hidden">\
-            <div class="flex items-start">\
-                <div class="text-3xl mr-4">
-\f2 \uc0\u55357 \u56493 
-\f0 </div>\
-                <div>\
-                    <p id="dailyQuote" class="text-lg text-gray-700 italic"></p>\
-                    <p id="quoteAuthor" class="text-right text-gray-500 mt-2 text-sm"></p>\
-                </div>\
-            </div>\
-        </div>\
-\
-        <div id="noDateSelected" class="text-center p-8 bg-gray-100 rounded-lg">\
-            <div class="text-5xl mb-4">
-\f2 \uc0\u55357 \u56517 
-\f0 </div>\
-            <p class="text-xl text-gray-600">
-\f1 \'bd\'d0\'bf\'ef\'be\'dc\'ad\'70\'ae\'c9\'c3\'fe\'ab\'ac\'a8\'c3\'b3\'5d\'a9\'77\'a4\'e9\'b4\'c1\'b6\'7d\'a9\'6c\'ad\'cb\'bc\'c6
-\f0 </p>\
-        </div>\
-    </div>\
-\
-    <script>\
-        // 
-\f1 \'c0\'79\'a7\'d3\'aa\'f7\'a5\'79\'ae\'77
-\f0 \
-        const quotes = [\
-            \{ text: "
-\f1 \'b5\'a3\'a6\'7e\'ac\'4f\'a4\'40\'ad\'d3\'ac\'fc\'c4\'52\'aa\'ba\'b9\'da\'a1\'41\'ac\'4f\'a4\'48\'a5\'cd\'a4\'a4\'b3\'cc\'af\'c2\'af\'75\'aa\'ba\'ae\'c9\'a5\'fa\'a1\'43
-\f0 ", author: "
-\f1 \'be\'7c\'a8\'b3
-\f0 " \},\
-            \{ text: "
-\f1 \'ac\'c3\'b1\'a4\'b7\'ed\'a4\'55\'aa\'ba\'a8\'43\'a4\'40\'a8\'e8\'a1\'41\'a6\'5d\'ac\'b0\'a5\'a6\'ad\'cc\'b2\'d7\'b1\'4e\'a6\'a8\'ac\'b0\'ac\'fc\'a6\'6e\'aa\'ba\'a6\'5e\'be\'d0\'a1\'43
-\f0 ", author: "
-\f1 \'a7\'48\'a6\'57
-\f0 " \},\
-            \{ text: "
-\f1 \'a8\'43\'a4\'40\'a6\'b8\'a7\'56\'a4\'4f\'a1\'41\'b3\'a3\'ac\'4f\'a6\'a8\'a5\'5c\'aa\'ba\'a5\'f1\'b5\'a7\'a1\'43
-\f0 ", author: "
-\f1 \'a7\'48\'a6\'57
-\f0 " \},\
-            \{ text: "
-\f1 \'b0\'ed\'ab\'f9\'a4\'55\'a5\'68\'a1\'41\'a6\'a8\'a5\'5c\'b4\'4e\'a6\'62\'a4\'55\'a4\'40\'ad\'d3\'c2\'e0\'a8\'a4\'a1\'43
-\f0 ", author: "
-\f1 \'a7\'48\'a6\'57
-\f0 " \},\
-            \{ text: "
-\f1 \'ac\'db\'ab\'48\'a6\'db\'a4\'76\'a1\'41\'a7\'41\'a4\'f1\'b7\'51\'b9\'b3\'a4\'a4\'a7\'f3\'b1\'6a\'a4\'6a\'a1\'43
-\f0 ", author: "
-\f1 \'a7\'48\'a6\'57
-\f0 " \},\
-            \{ text: "
-\f1 \'a4\'b5\'a4\'d1\'aa\'ba\'a7\'56\'a4\'4f\'a1\'41\'ac\'4f\'a9\'fa\'a4\'e9\'aa\'ba\'a9\'af\'b9\'42\'a1\'43
-\f0 ", author: "
-\f1 \'a7\'48\'a6\'57
-\f0 " \},\
-            \{ text: "
-\f1 \'a4\'a3\'ad\'6e\'ae\'60\'a9\'c8\'a5\'a2\'b1\'d1\'a1\'41\'a5\'a6\'ac\'4f\'a6\'a8\'a5\'5c\'aa\'ba\'b9\'d4\'b8\'7d\'a5\'db\'a1\'43
-\f0 ", author: "
-\f1 \'a7\'48\'a6\'57
-\f0 " \},\
-            \{ text: "
-\f1 \'ac\'b0\'b9\'da\'b7\'51\'a5\'5b\'b3\'74\'a1\'41\'ac\'b0\'a5\'bc\'a8\'d3\'a5\'5b\'aa\'6f\'a1\'49
-\f0 ", author: "Gloria
-\f1 \'a6\'d1\'ae\'76
-\f0 "\},\
-            \{ text: "
-\f1 \'a8\'43\'a4\'40\'a6\'b8\'c2\'bd\'b6\'7d\'ae\'d1\'a5\'bb\'a1\'41\'b3\'a3\'ac\'4f\'bb\'50\'b4\'bc\'bc\'7a\'aa\'ba\'b9\'ef\'b8\'dc\'a1\'43
-\f0 ", author: "Gloria
-\f1 \'a6\'d1\'ae\'76
-\f0 "\},\
-            \{ text: "
-\f1 \'a6\'d2\'b8\'d5\'ac\'4f\'c0\'cb\'c5\'e7\'a1\'41\'a7\'f3\'ac\'4f\'a6\'a8\'aa\'f8\'aa\'ba\'be\'f7\'b7\'7c\'a1\'43
-\f0 ", author: "Gloria
-\f1 \'a6\'d1\'ae\'76
-\f0 "\},\
-            \{ text: "
-\f1 \'b2\'a6\'b7\'7e\'a4\'a3\'ac\'4f\'b5\'b2\'a7\'f4\'a1\'41\'a6\'d3\'ac\'4f\'b9\'f1\'b7\'73\'aa\'ba\'b6\'7d\'a9\'6c\'a1\'43
-\f0 ", author: "Gloria
-\f1 \'a6\'d1\'ae\'76
-\f0 "\},\
-            \{ text: "
-\f1 \'ab\'43\'ac\'4b\'b5\'4c\'ae\'ac\'a1\'41\'ac\'b0\'b9\'da\'b7\'51\'be\'c4\'b0\'ab\'aa\'ba\'a8\'43\'a4\'40\'a4\'d1\'b3\'a3\'b0\'7b\'b0\'7b\'b5\'6f\'a5\'fa\'a1\'43
-\f0 ", author: "Gloria
-\f1 \'a6\'d1\'ae\'76
-\f0 "\}\
-        ];\
-\
-        // DOM 
-\f1 \'a4\'b8\'af\'c0
-\f0 \
-        const mainHeader = document.getElementById('mainHeader');\
-        const countdownTypeSelect = document.getElementById('countdownTypeSelect');\
-        \
-        const dateInput1Group = document.getElementById('dateInput1Group');\
-        const dateInput1Label = document.getElementById('dateInput1Label');\
-        const dateInput1 = document.getElementById('dateInput1');\
-        \
-        const dateInput2Group = document.getElementById('dateInput2Group');\
-        const dateInput2Label = document.getElementById('dateInput2Label');\
-        const dateInput2 = document.getElementById('dateInput2');\
-        \
-        const startCountdownBtn = document.getElementById('startCountdown');\
-        const resetCountdownBtn = document.getElementById('resetCountdown');\
-        const formAlert = document.getElementById('formAlert');\
-\
-        const countdownDisplay = document.getElementById('countdownDisplay');\
-        const countdownCardTitle = document.getElementById('countdownCardTitle');\
-        const countdownDateString = document.getElementById('countdownDateString');\
-        const daysLeftElement = document.getElementById('daysLeft');\
-        const countdownTargetText = document.getElementById('countdownTargetText');\
-        \
-        const quoteCard = document.getElementById('quoteCard');\
-        const dailyQuote = document.getElementById('dailyQuote');\
-        const quoteAuthor = document.getElementById('quoteAuthor');\
-        const noDateSelected = document.getElementById('noDateSelected');\
-\
-        let currentSelectedMode = 'exam'; // 
-\f1 \'b9\'77\'b3\'5d\'bc\'d2\'a6\'a1
-\f0 \
-\
-        // 
-\f1 \'ae\'e6\'a6\'a1\'a4\'c6\'a4\'e9\'b4\'c1\'ac\'b0\'a4\'a4\'a4\'e5
-\f0 \
-        function formatDateToChinese(date) \{\
-            if (!date) return '';\
-            const d = new Date(date);\
-            if (isNaN(d.getTime())) return '';\
-            const year = d.getFullYear();\
-            const month = d.getMonth() + 1;\
-            const day = d.getDate();\
-            return `$\{year\} 
-\f1 \'a6\'7e
-\f0  $\{month\} 
-\f1 \'a4\'eb
-\f0  $\{day\} 
-\f1 \'a4\'e9
-\f0 `;\
-        \}\
-\
-        // 
-\f1 \'ad\'70\'ba\'e2\'b3\'d1\'be\'6c\'a4\'d1\'bc\'c6
-\f0 \
-        function calculateDaysLeft(targetDateString) \{\
-            if (!targetDateString) return 0;\
-            const today = new Date();\
-            today.setHours(0, 0, 0, 0);\
-\
-            const targetD = new Date(targetDateString);\
-            if (isNaN(targetD.getTime())) return 0;\
-            targetD.setHours(0, 0, 0, 0);\
-\
-            const timeDiff = targetD.getTime() - today.getTime();\
-            return Math.ceil(timeDiff / (1000 * 3600 * 24));\
-        \}\
-\
-        // 
-\f1 \'ae\'da\'be\'da\'bf\'ef\'be\'dc\'aa\'ba\'bc\'d2\'a6\'a1\'a7\'f3\'b7\'73
-\f0 UI (
-\f1 \'bf\'e9\'a4\'4a\'c4\'e6\'a6\'ec\'a1\'42\'bc\'d0\'c5\'d2\'b5\'a5
-\f0 )\
-        function setupUIForSelectedMode(mode) \{\
-            currentSelectedMode = mode;\
-            mainHeader.textContent = countdownTypeSelect.options[countdownTypeSelect.selectedIndex].text;\
-\
-            const savedData = JSON.parse(localStorage.getItem('countdownAppData')) || \{\};\
-            dateInput1.value = ''; \
-            dateInput2.value = '';\
-\
-            if (savedData.mode === mode) \{ \
-                dateInput1.value = savedData.date1 || '';\
-                if (mode === 'examToGraduation') \{\
-                    dateInput2.value = savedData.date2 || '';\
-                \}\
-            \}\
-            \
-            formAlert.textContent = ''; \
-\
-            if (mode === 'exam') \{\
-                dateInput1Group.classList.remove('hidden');\
-                dateInput1Label.textContent = "
-\f1 \'bf\'ef\'be\'dc\'a4\'6a\'a6\'d2\'a4\'e9\'b4\'c1\'a1\'47
-\f0 ";\
-                dateInput2Group.classList.add('hidden');\
-            \} else if (mode === 'graduation') \{\
-                dateInput1Group.classList.remove('hidden');\
-                dateInput1Label.textContent = "
-\f1 \'bf\'ef\'be\'dc\'b2\'a6\'b7\'7e\'a4\'e9\'b4\'c1\'a1\'47
-\f0 ";\
-                dateInput2Group.classList.add('hidden');\
-            \} else if (mode === 'examToGraduation') \{\
-                dateInput1Group.classList.remove('hidden');\
-                dateInput1Label.textContent = "
-\f1 \'bf\'ef\'be\'dc\'a4\'6a\'a6\'d2\'a4\'e9\'b4\'c1\'a1\'47
-\f0 ";\
-                dateInput2Group.classList.remove('hidden');\
-                dateInput2Label.textContent = "
-\f1 \'bf\'ef\'be\'dc\'b2\'a6\'b7\'7e\'a4\'e9\'b4\'c1\'a1\'47
-\f0 ";\
-            \}\
-            updateCountdownDisplay(); \
-        \}\
-\
-        // 
-\f1 \'a7\'f3\'b7\'73\'ad\'cb\'bc\'c6\'ad\'70\'ae\'c9\'be\'b9\'aa\'ba\'c5\'e3\'a5\'dc
-\f0 \
-        function updateCountdownDisplay() \{\
-            const savedData = JSON.parse(localStorage.getItem('countdownAppData')) || \{\};\
-            let effectiveTargetDate = null;\
-            let currentCountdownTitle = "
-\f1 \'ad\'cb\'bc\'c6\'ad\'70\'ae\'c9
-\f0 "; // 
-\f1 \'a5\'64\'a4\'f9\'bc\'d0\'c3\'44
-\f0 \
-            let currentTargetText = "
-\f1 \'b6\'5a\'c2\'f7\'a5\'d8\'bc\'d0\'a4\'e9\'b4\'c1\'c1\'d9\'a6\'b3
-\f0 "; // 
-\f1 \'a5\'64\'a4\'f9\'a4\'ba\'a4\'e5\'b4\'a3\'a5\'dc
-\f0 \
-            let dateStringToDisplay = ""; // 
-\f1 \'a5\'64\'a4\'f9\'a4\'e9\'b4\'c1\'a6\'72\'a6\'ea
-\f0 \
-            let daysLeft = 0;\
-\
-            const calendarHeader = countdownDisplay.querySelector('.calendar-header');\
-\
-            // 
-\f1 \'b2\'4d\'b0\'a3\'a5\'fd\'ab\'65\'aa\'ba\'c3\'43\'a6\'e2
-\f0  class\
-            calendarHeader.classList.remove('bg-red-500', 'bg-blue-600', 'bg-green-600');\
-            daysLeftElement.classList.remove('text-red-500', 'text-blue-600', 'text-green-600');\
-            // 
-\f1 \'ab\'ec\'b4\'5f\'b9\'77\'b3\'5d\'a1\'5d\'a6\'70\'aa\'47\'a8\'53\'a6\'b3\'bc\'d2\'a6\'a1\'a4\'c7\'b0\'74\'a1\'41\'b7\'7c\'b3\'51
-\f0 CSS
-\f1 \'a4\'a4\'aa\'ba\'b9\'77\'b3\'5d\'ac\'f5\'a6\'e2\'c2\'d0\'bb\'5c\'a1\'41\'a9\'ce\'aa\'cc\'a6\'70\'aa\'47\'a8\'53\'a6\'b3\'ad\'cb\'bc\'c6\'ab\'68\'c1\'f4\'c2\'c3\'a1\'5e
-\f0 \
-            daysLeftElement.classList.add('text-red-500'); // 
-\f1 \'b9\'77\'b3\'5d\'a4\'d1\'bc\'c6\'c3\'43\'a6\'e2\'a1\'41\'b7\'7c\'b3\'51\'af\'53\'a9\'77\'bc\'d2\'a6\'a1\'c2\'d0\'bb\'5c
-\f0 \
-\
-            if (!savedData.mode) \{\
-                countdownDisplay.classList.add('hidden');\
-                quoteCard.classList.add('hidden');\
-                noDateSelected.classList.remove('hidden');\
-                return;\
-            \}\
-            \
-            // 
-\f1 \'ae\'da\'be\'da\'bc\'d2\'a6\'a1\'b3\'5d\'a9\'77\'bc\'d0\'c3\'44\'a1\'42\'a4\'e5\'a6\'72\'a9\'4d\'c3\'43\'a6\'e2
-\f0 \
-            if (savedData.mode === 'exam') \{\
-                effectiveTargetDate = savedData.date1;\
-                currentCountdownTitle = "
-\f1 \'a4\'6a\'a6\'d2\'ad\'cb\'bc\'c6
-\f0 ";\
-                dateStringToDisplay = savedData.date1 ? `
-\f1 \'a4\'6a\'a6\'d2\'a4\'e9\'b4\'c1\'a1\'47
-\f0 $\{formatDateToChinese(savedData.date1)\}` : "";\
-                currentTargetText = "
-\f1 \'b6\'5a\'c2\'f7\'a4\'6a\'a6\'d2\'c1\'d9\'a6\'b3
-\f0 ";\
-                calendarHeader.classList.add('bg-red-500');\
-                daysLeftElement.classList.add('text-red-500');\
-            \} else if (savedData.mode === 'graduation') \{\
-                effectiveTargetDate = savedData.date1;\
-                currentCountdownTitle = "
-\f1 \'b2\'a6\'b7\'7e\'ad\'cb\'bc\'c6
-\f0 ";\
-                dateStringToDisplay = savedData.date1 ? `
-\f1 \'b2\'a6\'b7\'7e\'a4\'e9\'b4\'c1\'a1\'47
-\f0 $\{formatDateToChinese(savedData.date1)\}` : "";\
-                currentTargetText = "
-\f1 \'b6\'5a\'c2\'f7\'b2\'a6\'b7\'7e\'c1\'d9\'a6\'b3
-\f0 ";\
-                calendarHeader.classList.add('bg-blue-600'); // 
-\f1 \'b2\'a6\'b7\'7e\'bc\'d2\'a6\'a1\'c2\'c5\'a6\'e2
-\f0 \
-                daysLeftElement.classList.add('text-blue-600');\
-            \} else if (savedData.mode === 'examToGraduation') \{\
-                currentCountdownTitle = "
-\f1 \'a4\'6a\'a6\'d2\'a6\'dc\'b2\'a6\'b7\'7e\'a4\'e9\'ad\'cb\'bc\'c6
-\f0 "; // *** 
-\f1 \'a6\'b9\'b3\'42\'ac\'b0\'a5\'ce\'a4\'e1\'ad\'6e\'a8\'44\'aa\'ba\'aa\'ed\'c0\'59\'a7\'f3\'a7\'ef
-\f0  ***\
-                calendarHeader.classList.add('bg-green-600'); // 
-\f1 \'a4\'6a\'a6\'d2\'a6\'dc\'b2\'a6\'b7\'7e\'bc\'d2\'a6\'a1\'ba\'f1\'a6\'e2
-\f0 \
-                daysLeftElement.classList.add('text-green-600');\
-\
-                if (savedData.date1) \{\
-                    const daysToExam = calculateDaysLeft(savedData.date1);\
-                    if (daysToExam < 0 && savedData.date2) \{ \
-                        effectiveTargetDate = savedData.date2;\
-                        dateStringToDisplay = savedData.date2 ? `
-\f1 \'b2\'a6\'b7\'7e\'a4\'e9\'b4\'c1\'a1\'47
-\f0 $\{formatDateToChinese(savedData.date2)\}` : "";\
-                        currentTargetText = "
-\f1 \'b6\'5a\'c2\'f7\'b2\'a6\'b7\'7e\'c1\'d9\'a6\'b3
-\f0 ";\
-                    \} else \{ \
-                        effectiveTargetDate = savedData.date1;\
-                        dateStringToDisplay = savedData.date1 ? `
-\f1 \'a4\'6a\'a6\'d2\'a4\'e9\'b4\'c1\'a1\'47
-\f0 $\{formatDateToChinese(savedData.date1)\}` : "";\
-                        currentTargetText = "
-\f1 \'b6\'5a\'c2\'f7\'a4\'6a\'a6\'d2\'c1\'d9\'a6\'b3
-\f0 ";\
-                    \}\
-                \}\
-            \}\
-\
-            if (effectiveTargetDate) \{\
-                daysLeft = calculateDaysLeft(effectiveTargetDate);\
-                countdownCardTitle.textContent = currentCountdownTitle;\
-                countdownDateString.textContent = dateStringToDisplay;\
-                countdownTargetText.textContent = currentTargetText;\
-                daysLeftElement.textContent = daysLeft; // 
-\f1 \'bd\'54\'ab\'4f\'a6\'62\'c5\'e3\'a5\'dc\'ab\'65\'b2\'be\'b0\'a3\'c2\'c2\'c3\'43\'a6\'e2
-\f0 \
-\
-                countdownDisplay.classList.remove('hidden');\
-                quoteCard.classList.remove('hidden');\
-                noDateSelected.classList.add('hidden');\
-\
-                if (daysLeft < 0) \{\
-                    daysLeftElement.textContent = "0";\
-                    let finalMessage = "
-\f1 \'a5\'d8\'bc\'d0\'a4\'77\'b9\'46\'a6\'a8\'a1\'49
-\f0 ";\
-                    let finalQuote = "
-\f1 \'ae\'a5\'b3\'df\'a1\'49\'b7\'73\'aa\'ba\'ae\'c8\'b5\'7b\'a4\'77\'ae\'69\'b6\'7d\'a1\'49
-\f0 ";\
-                    \
-                    if (savedData.mode === 'examToGraduation') \{\
-                        const examPassed = calculateDaysLeft(savedData.date1) < 0;\
-                        const gradPassed = savedData.date2 ? calculateDaysLeft(savedData.date2) < 0 : false;\
-                        if (examPassed && gradPassed) \{\
-                            finalMessage = "
-\f1 \'a4\'6a\'a6\'d2\'a4\'ce\'b2\'a6\'b7\'7e\'ac\'d2\'a4\'77\'a7\'b9\'a6\'a8\'a1\'49
-\f0 ";\
-                            finalQuote = "
-\f1 \'a4\'d3\'b4\'ce\'a4\'46\'a1\'49\'a9\'d2\'a6\'b3\'a5\'d8\'bc\'d0\'b3\'a3\'b9\'46\'a6\'a8\'a4\'46\'a1\'49
-\f0 ";\
-                            daysLeftElement.innerHTML = "&#x1F389;"; \
-                        \} else if (examPassed && !savedData.date2) \{\
-                             finalMessage = "
-\f1 \'a4\'6a\'a6\'d2\'a4\'77\'b5\'b2\'a7\'f4\'a1\'49
-\f0 ";\
-                             finalQuote = "
-\f1 \'a4\'6a\'a6\'d2\'b5\'b2\'a7\'f4\'a1\'41\'a4\'d3\'b4\'ce\'a4\'46\'a1\'49
-\f0 ";\
-                        \} else if (examPassed && effectiveTargetDate === savedData.date2) \{ \
-                             finalMessage = "
-\f1 \'b2\'a6\'b7\'7e\'a4\'e9\'a4\'77\'b9\'4c\'a1\'49
-\f0 ";\
-                             finalQuote = "
-\f1 \'ae\'a5\'b3\'df\'b2\'a6\'b7\'7e\'a1\'49
-\f0 ";\
-                        \} else \{ \
-                             finalMessage = "
-\f1 \'a4\'6a\'a6\'d2\'a4\'77\'b5\'b2\'a7\'f4\'a1\'49
-\f0 ";\
-                             finalQuote = "
-\f1 \'a4\'6a\'a6\'d2\'b5\'b2\'a7\'f4\'a1\'41\'a4\'d3\'b4\'ce\'a4\'46\'a1\'49
-\f0 ";\
-                        \}\
-                    \} else if (savedData.mode === 'exam') \{\
-                        finalMessage = "
-\f1 \'a4\'6a\'a6\'d2\'a4\'77\'b5\'b2\'a7\'f4\'a1\'49
-\f0 ";\
-                        finalQuote = "
-\f1 \'a4\'6a\'a6\'d2\'b5\'b2\'a7\'f4\'a1\'41\'a4\'d3\'b4\'ce\'a4\'46\'a1\'49
-\f0 ";\
-                    \} else if (savedData.mode === 'graduation') \{\
-                        finalMessage = "
-\f1 \'b2\'a6\'b7\'7e\'a4\'e9\'a4\'77\'b9\'4c\'a1\'49
-\f0 ";\
-                        finalQuote = "
-\f1 \'ae\'a5\'b3\'df\'b2\'a6\'b7\'7e\'a1\'49
-\f0 ";\
-                    \}\
-                    countdownTargetText.textContent = finalMessage;\
-                    dailyQuote.textContent = `"$\{finalQuote\}"`;\
-                    quoteAuthor.textContent = "Gloria
-\f1 \'a6\'d1\'ae\'76
-\f0 ";\
-\
-                \} else if (daysLeft === 0) \{\
-                    countdownTargetText.textContent = "
-\f1 \'b4\'4e\'ac\'4f\'a4\'b5\'a4\'d1\'a1\'49
-\f0 ";\
-                    dailyQuote.textContent = `"
-\f1 \'b4\'4e\'ac\'4f\'a4\'b5\'a4\'d1\'a1\'49\'a5\'fe\'a4\'4f\'a5\'48\'ad\'75\'a1\'41\'a7\'41\'b3\'cc\'b4\'ce\'a1\'49
-\f0 "`;\
-                    quoteAuthor.textContent = "Gloria
-\f1 \'a6\'d1\'ae\'76
-\f0 ";\
-                \} else \{\
-                    const today = new Date();\
-                    const dateStringForQuote = `$\{today.getFullYear()\}-$\{today.getMonth() + 1\}-$\{today.getDate()\}`;\
-                    let seed = 0;\
-                    for (let i = 0; i < dateStringForQuote.length; i++) \{\
-                        seed = (seed * 31 + dateStringForQuote.charCodeAt(i)) & 0xFFFFFFFF;\
-                    \}\
-                    const quoteIndex = Math.abs(seed) % quotes.length;\
-                    dailyQuote.textContent = `"$\{quotes[quoteIndex].text\}"`;\
-                    quoteAuthor.textContent = `\'97 $\{quotes[quoteIndex].author\}`;\
-                \}\
-            \} else \{ \
-                countdownDisplay.classList.add('hidden');\
-                quoteCard.classList.add('hidden');\
-                noDateSelected.classList.remove('hidden');\
-            \}\
-        \}\
-\
-        // 
-\f1 \'a8\'c6\'a5\'f3\'ba\'ca\'c5\'a5\'be\'b9
-\f0 \
-        countdownTypeSelect.addEventListener('change', (event) => \{\
-            setupUIForSelectedMode(event.target.value);\
-        \});\
-\
-        startCountdownBtn.addEventListener('click', () => \{\
-            formAlert.textContent = ''; \
-            const date1Value = dateInput1.value;\
-            const date2Value = (currentSelectedMode === 'examToGraduation') ? dateInput2.value : null;\
-\
-            if (!date1Value) \{\
-                formAlert.textContent = (currentSelectedMode === 'exam' || currentSelectedMode === 'examToGraduation') ? '
-\f1 \'bd\'d0\'bf\'ef\'be\'dc\'a4\'6a\'a6\'d2\'a4\'e9\'b4\'c1\'a1\'49
-\f0 ' : '
-\f1 \'bd\'d0\'bf\'ef\'be\'dc\'b2\'a6\'b7\'7e\'a4\'e9\'b4\'c1\'a1\'49
-\f0 ';\
-                return;\
-            \}\
-            if (currentSelectedMode === 'examToGraduation' && !date2Value) \{\
-                formAlert.textContent = '
-\f1 \'bd\'d0\'bf\'ef\'be\'dc\'b2\'a6\'b7\'7e\'a4\'e9\'b4\'c1\'a1\'49
-\f0 ';\
-                return;\
-            \}\
-            if (currentSelectedMode === 'examToGraduation' && date1Value && date2Value && new Date(date1Value) >= new Date(date2Value)) \{\
-                formAlert.textContent = '
-\f1 \'a4\'6a\'a6\'d2\'a4\'e9\'b4\'c1\'a5\'b2\'b6\'b7\'a6\'ad\'a9\'f3\'b2\'a6\'b7\'7e\'a4\'e9\'b4\'c1\'a1\'49
-\f0 ';\
-                return;\
-            \}\
-\
-            const dataToSave = \{\
-                mode: currentSelectedMode,\
-                date1: date1Value,\
-            \};\
-            if (date2Value) \{\
-                dataToSave.date2 = date2Value;\
-            \}\
-\
-            localStorage.setItem('countdownAppData', JSON.stringify(dataToSave));\
-            updateCountdownDisplay();\
-\
-            if (daysLeftElement.textContent && parseInt(daysLeftElement.textContent) >= 0) \{\
-                 daysLeftElement.classList.add('pulse');\
-                 setTimeout(() => \{\
-                    daysLeftElement.classList.remove('pulse');\
-                \}, 2000);\
-            \}\
-        \});\
-\
-        resetCountdownBtn.addEventListener('click', () => \{\
-            localStorage.removeItem('countdownAppData');\
-            dateInput1.value = '';\
-            dateInput2.value = '';\
-            formAlert.textContent = '';\
-            updateCountdownDisplay(); \
-        \});\
-\
-        // 
-\f1 \'ad\'b6\'ad\'b1\'aa\'ec\'a9\'6c\'b8\'fc\'a4\'4a
-\f0 \
-        window.addEventListener('load', () => \{\
-            const savedData = JSON.parse(localStorage.getItem('countdownAppData')) || \{\};\
-            const initialMode = savedData.mode || 'exam'; \
-            countdownTypeSelect.value = initialMode; \
-            setupUIForSelectedMode(initialMode); \
-        \});\
-    </script>\
-</body>\
-</html>\
-\pard\pardeftab720\partightenfactor0
-\cf2 \
-}
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>大考及畢業倒數日計時器</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap');
+
+        body {
+            font-family: 'Noto Sans TC', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            padding-bottom: 4rem; /* Add padding to prevent content being hidden by potential fixed elements */
+        }
+
+        .calendar {
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+
+        .calendar:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+        }
+
+        .calendar-header {
+            /* Default background color, will be overridden by Tailwind if a mode is active */
+            background-color: #e74c3c; 
+            border-top-left-radius: 12px;
+            border-top-right-radius: 12px;
+        }
+
+        .calendar-body {
+            background-color: white;
+            border-bottom-left-radius: 12px;
+            border-bottom-right-radius: 12px;
+        }
+
+        .quote-card {
+            background: linear-gradient(45deg, #f3f4f6, #ffffff);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+        }
+
+        .quote-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+        }
+
+        .btn-primary {
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(231, 76, 60, 0.3); /* 紅色按鈕陰影 */
+        }
+
+        .btn-secondary {
+            transition: all 0.3s ease;
+        }
+
+        .btn-secondary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .date-input, .select-input { 
+            transition: all 0.3s ease;
+        }
+
+        .date-input:focus, .select-input:focus {
+            border-color: #e74c3c; 
+            box-shadow: 0 0 0 3px rgba(231, 76, 60, 0.25); 
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+
+        .creator-info {
+            background-color: #e9d5ff; 
+            color: #5b21b6; 
+            padding: 0.75rem 1.5rem; 
+            border-radius: 0.5rem; 
+            text-align: center;
+            font-weight: 500; 
+            margin-bottom: 1.5rem; 
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
+        }
+    </style>
+</head>
+<body class="p-4 md:p-8">
+    <div class="max-w-3xl mx-auto">
+        <h1 id="mainHeader" class="text-4xl md:text-5xl font-bold text-center mb-4 text-purple-600">大考倒數計時日</h1>
+        <p class="creator-info text-lg">計時器創建人：Gloria吳秀蘭老師，Google認證講師，英文兼台語教師</p>
+
+        <div class="mb-6 bg-white rounded-lg p-6 shadow-md">
+            <label for="countdownTypeSelect" class="block text-lg font-medium text-gray-700 mb-2">選擇計時類型：</label>
+            <select id="countdownTypeSelect" class="select-input w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none text-lg">
+                <option value="exam" selected>大考倒數計時日</option>
+                <option value="graduation">畢業倒數計時日</option>
+                <option value="examToGraduation">大考至畢業日倒數計時日</option>
+            </select>
+        </div>
+
+        <div id="dateInputsContainer" class="mb-8 bg-white rounded-lg p-6 shadow-md">
+            <div id="dateInput1Group" class="mb-4">
+                <label id="dateInput1Label" for="dateInput1" class="block text-lg font-medium text-gray-700 mb-2">選擇大考日期：</label>
+                <input type="date" id="dateInput1" class="date-input w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none text-lg">
+            </div>
+
+            <div id="dateInput2Group" class="mb-4 hidden"> 
+                <label id="dateInput2Label" for="dateInput2" class="block text-lg font-medium text-gray-700 mb-2">選擇畢業日期：</label>
+                <input type="date" id="dateInput2" class="date-input w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none text-lg">
+            </div>
+
+            <div class="flex flex-col md:flex-row gap-4">
+                <button id="startCountdown" class="btn-primary bg-red-500 hover:bg-red-600 text-white font-bold py-3 px-6 rounded-lg w-full md:w-auto flex-grow">開始倒數</button>
+                <button id="resetCountdown" class="btn-secondary bg-gray-200 hover:bg-gray-300 text-gray-700 font-bold py-3 px-6 rounded-lg w-full md:w-auto flex-grow">清除</button>
+            </div>
+            <p id="formAlert" class="text-red-500 text-center mt-3 text-sm"></p> 
+        </div>
+
+        <div id="countdownDisplay" class="calendar mb-8 rounded-lg overflow-hidden hidden">
+            <div class="calendar-header p-4 text-center text-white"> <h2 id="countdownCardTitle" class="text-2xl font-bold">倒數計時</h2>
+                <p id="countdownDateString" class="text-lg opacity-90"></p> 
+            </div>
+            <div class="calendar-body p-8 text-center">
+                <div class="mb-4">
+                    <span id="daysLeft" class="text-6xl md:text-8xl font-bold text-red-500 pulse"></span> 
+                    <span class="text-3xl md:text-4xl font-bold text-gray-700">天</span>
+                </div>
+                <p id="countdownTargetText" class="text-lg text-gray-600">距離目標日期還有</p>
+            </div>
+        </div>
+
+        <div id="quoteCard" class="quote-card p-6 rounded-lg mb-8 hidden">
+            <div class="flex items-start">
+                <div class="text-3xl mr-4">💭</div>
+                <div>
+                    <p id="dailyQuote" class="text-lg text-gray-700 italic"></p>
+                    <p id="quoteAuthor" class="text-right text-gray-500 mt-2 text-sm"></p>
+                </div>
+            </div>
+        </div>
+
+        <div id="noDateSelected" class="text-center p-8 bg-gray-100 rounded-lg">
+            <div class="text-5xl mb-4">📅</div>
+            <p class="text-xl text-gray-600">請選擇計時類型並設定日期開始倒數</p>
+        </div>
+    </div>
+
+    <script>
+        // 勵志金句庫
+        const quotes = [
+            { text: "童年是一個美麗的夢，是人生中最純真的時光。", author: "魯迅" },
+            { text: "珍惜當下的每一刻，因為它們終將成為美好的回憶。", author: "佚名" },
+            { text: "每一次努力，都是成功的伏筆。", author: "佚名" },
+            { text: "堅持下去，成功就在下一個轉角。", author: "佚名" },
+            { text: "相信自己，你比想像中更強大。", author: "佚名" },
+            { text: "今天的努力，是明日的幸運。", author: "佚名" },
+            { text: "不要害怕失敗，它是成功的墊腳石。", author: "佚名" },
+            { text: "為夢想加速，為未來加油！", author: "Gloria老師"},
+            { text: "每一次翻開書本，都是與智慧的對話。", author: "Gloria老師"},
+            { text: "考試是檢驗，更是成長的機會。", author: "Gloria老師"},
+            { text: "畢業不是結束，而是嶄新的開始。", author: "Gloria老師"},
+            { text: "青春無悔，為夢想奮鬥的每一天都閃閃發光。", author: "Gloria老師"}
+        ];
+
+        // DOM 元素
+        const mainHeader = document.getElementById('mainHeader');
+        const countdownTypeSelect = document.getElementById('countdownTypeSelect');
+        
+        const dateInput1Group = document.getElementById('dateInput1Group');
+        const dateInput1Label = document.getElementById('dateInput1Label');
+        const dateInput1 = document.getElementById('dateInput1');
+        
+        const dateInput2Group = document.getElementById('dateInput2Group');
+        const dateInput2Label = document.getElementById('dateInput2Label');
+        const dateInput2 = document.getElementById('dateInput2');
+        
+        const startCountdownBtn = document.getElementById('startCountdown');
+        const resetCountdownBtn = document.getElementById('resetCountdown');
+        const formAlert = document.getElementById('formAlert');
+
+        const countdownDisplay = document.getElementById('countdownDisplay');
+        const countdownCardTitle = document.getElementById('countdownCardTitle');
+        const countdownDateString = document.getElementById('countdownDateString');
+        const daysLeftElement = document.getElementById('daysLeft');
+        const countdownTargetText = document.getElementById('countdownTargetText');
+        
+        const quoteCard = document.getElementById('quoteCard');
+        const dailyQuote = document.getElementById('dailyQuote');
+        const quoteAuthor = document.getElementById('quoteAuthor');
+        const noDateSelected = document.getElementById('noDateSelected');
+
+        let currentSelectedMode = 'exam'; // 預設模式
+
+        // 格式化日期為中文
+        function formatDateToChinese(date) {
+            if (!date) return '';
+            const d = new Date(date);
+            if (isNaN(d.getTime())) return '';
+            const year = d.getFullYear();
+            const month = d.getMonth() + 1;
+            const day = d.getDate();
+            return `${year} 年 ${month} 月 ${day} 日`;
+        }
+
+        // 計算剩餘天數
+        function calculateDaysLeft(targetDateString) {
+            if (!targetDateString) return 0;
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
+
+            const targetD = new Date(targetDateString);
+            if (isNaN(targetD.getTime())) return 0;
+            targetD.setHours(0, 0, 0, 0);
+
+            const timeDiff = targetD.getTime() - today.getTime();
+            return Math.ceil(timeDiff / (1000 * 3600 * 24));
+        }
+
+        // 根據選擇的模式更新UI (輸入欄位、標籤等)
+        function setupUIForSelectedMode(mode) {
+            currentSelectedMode = mode;
+            mainHeader.textContent = countdownTypeSelect.options[countdownTypeSelect.selectedIndex].text;
+
+            const savedData = JSON.parse(localStorage.getItem('countdownAppData')) || {};
+            dateInput1.value = ''; 
+            dateInput2.value = '';
+
+            if (savedData.mode === mode) { 
+                dateInput1.value = savedData.date1 || '';
+                if (mode === 'examToGraduation') {
+                    dateInput2.value = savedData.date2 || '';
+                }
+            }
+            
+            formAlert.textContent = ''; 
+
+            if (mode === 'exam') {
+                dateInput1Group.classList.remove('hidden');
+                dateInput1Label.textContent = "選擇大考日期：";
+                dateInput2Group.classList.add('hidden');
+            } else if (mode === 'graduation') {
+                dateInput1Group.classList.remove('hidden');
+                dateInput1Label.textContent = "選擇畢業日期：";
+                dateInput2Group.classList.add('hidden');
+            } else if (mode === 'examToGraduation') {
+                dateInput1Group.classList.remove('hidden');
+                dateInput1Label.textContent = "選擇大考日期：";
+                dateInput2Group.classList.remove('hidden');
+                dateInput2Label.textContent = "選擇畢業日期：";
+            }
+            updateCountdownDisplay(); 
+        }
+
+        // 更新倒數計時器的顯示
+        function updateCountdownDisplay() {
+            const savedData = JSON.parse(localStorage.getItem('countdownAppData')) || {};
+            let effectiveTargetDate = null;
+            let currentCountdownTitle = "倒數計時"; // 卡片標題
+            let currentTargetText = "距離目標日期還有"; // 卡片內文提示
+            let dateStringToDisplay = ""; // 卡片日期字串
+            let daysLeft = 0;
+
+            const calendarHeader = countdownDisplay.querySelector('.calendar-header');
+
+            // 清除先前的顏色 class
+            calendarHeader.classList.remove('bg-red-500', 'bg-blue-600', 'bg-green-600');
+            daysLeftElement.classList.remove('text-red-500', 'text-blue-600', 'text-green-600');
+            // 恢復預設（如果沒有模式匹配，會被CSS中的預設紅色覆蓋，或者如果沒有倒數則隱藏）
+            daysLeftElement.classList.add('text-red-500'); // 預設天數顏色，會被特定模式覆蓋
+
+            if (!savedData.mode) {
+                countdownDisplay.classList.add('hidden');
+                quoteCard.classList.add('hidden');
+                noDateSelected.classList.remove('hidden');
+                return;
+            }
+            
+            // 根據模式設定標題、文字和顏色
+            if (savedData.mode === 'exam') {
+                effectiveTargetDate = savedData.date1;
+                currentCountdownTitle = "大考倒數";
+                dateStringToDisplay = savedData.date1 ? `大考日期：${formatDateToChinese(savedData.date1)}` : "";
+                currentTargetText = "距離大考還有";
+                calendarHeader.classList.add('bg-red-500');
+                daysLeftElement.classList.add('text-red-500');
+            } else if (savedData.mode === 'graduation') {
+                effectiveTargetDate = savedData.date1;
+                currentCountdownTitle = "畢業倒數";
+                dateStringToDisplay = savedData.date1 ? `畢業日期：${formatDateToChinese(savedData.date1)}` : "";
+                currentTargetText = "距離畢業還有";
+                calendarHeader.classList.add('bg-blue-600'); // 畢業模式藍色
+                daysLeftElement.classList.add('text-blue-600');
+            } else if (savedData.mode === 'examToGraduation') {
+                currentCountdownTitle = "大考至畢業日倒數"; // *** 此處為用戶要求的表頭更改 ***
+                calendarHeader.classList.add('bg-green-600'); // 大考至畢業模式綠色
+                daysLeftElement.classList.add('text-green-600');
+
+                if (savedData.date1) {
+                    const daysToExam = calculateDaysLeft(savedData.date1);
+                    if (daysToExam < 0 && savedData.date2) { 
+                        effectiveTargetDate = savedData.date2;
+                        dateStringToDisplay = savedData.date2 ? `畢業日期：${formatDateToChinese(savedData.date2)}` : "";
+                        currentTargetText = "距離畢業還有";
+                    } else { 
+                        effectiveTargetDate = savedData.date1;
+                        dateStringToDisplay = savedData.date1 ? `大考日期：${formatDateToChinese(savedData.date1)}` : "";
+                        currentTargetText = "距離大考還有";
+                    }
+                }
+            }
+
+            if (effectiveTargetDate) {
+                daysLeft = calculateDaysLeft(effectiveTargetDate);
+                countdownCardTitle.textContent = currentCountdownTitle;
+                countdownDateString.textContent = dateStringToDisplay;
+                countdownTargetText.textContent = currentTargetText;
+                daysLeftElement.textContent = daysLeft; // 確保在顯示前移除舊顏色
+
+                countdownDisplay.classList.remove('hidden');
+                quoteCard.classList.remove('hidden');
+                noDateSelected.classList.add('hidden');
+
+                if (daysLeft < 0) {
+                    daysLeftElement.textContent = "0";
+                    let finalMessage = "目標已達成！";
+                    let finalQuote = "恭喜！新的旅程已展開！";
+                    
+                    if (savedData.mode === 'examToGraduation') {
+                        const examPassed = calculateDaysLeft(savedData.date1) < 0;
+                        const gradPassed = savedData.date2 ? calculateDaysLeft(savedData.date2) < 0 : false;
+                        if (examPassed && gradPassed) {
+                            finalMessage = "大考及畢業皆已完成！";
+                            finalQuote = "太棒了！所有目標都達成了！";
+                            daysLeftElement.innerHTML = "&#x1F389;"; 
+                        } else if (examPassed && !savedData.date2) {
+                             finalMessage = "大考已結束！";
+                             finalQuote = "大考結束，太棒了！";
+                        } else if (examPassed && effectiveTargetDate === savedData.date2) { 
+                             finalMessage = "畢業日已過！";
+                             finalQuote = "恭喜畢業！";
+                        } else { 
+                             finalMessage = "大考已結束！";
+                             finalQuote = "大考結束，太棒了！";
+                        }
+                    } else if (savedData.mode === 'exam') {
+                        finalMessage = "大考已結束！";
+                        finalQuote = "大考結束，太棒了！";
+                    } else if (savedData.mode === 'graduation') {
+                        finalMessage = "畢業日已過！";
+                        finalQuote = "恭喜畢業！";
+                    }
+                    countdownTargetText.textContent = finalMessage;
+                    dailyQuote.textContent = `"${finalQuote}"`;
+                    quoteAuthor.textContent = "Gloria老師";
+
+                } else if (daysLeft === 0) {
+                    countdownTargetText.textContent = "就是今天！";
+                    dailyQuote.textContent = `"就是今天！全力以赴，你最棒！"`;
+                    quoteAuthor.textContent = "Gloria老師";
+                } else {
+                    const today = new Date();
+                    const dateStringForQuote = `${today.getFullYear()}-${today.getMonth() + 1}-${today.getDate()}`;
+                    let seed = 0;
+                    for (let i = 0; i < dateStringForQuote.length; i++) {
+                        seed = (seed * 31 + dateStringForQuote.charCodeAt(i)) & 0xFFFFFFFF;
+                    }
+                    const quoteIndex = Math.abs(seed) % quotes.length;
+                    dailyQuote.textContent = `"${quotes[quoteIndex].text}"`;
+                    quoteAuthor.textContent = `— ${quotes[quoteIndex].author}`;
+                }
+            } else { 
+                countdownDisplay.classList.add('hidden');
+                quoteCard.classList.add('hidden');
+                noDateSelected.classList.remove('hidden');
+            }
+        }
+
+        // 事件監聽器
+        countdownTypeSelect.addEventListener('change', (event) => {
+            setupUIForSelectedMode(event.target.value);
+        });
+
+        startCountdownBtn.addEventListener('click', () => {
+            formAlert.textContent = ''; 
+            const date1Value = dateInput1.value;
+            const date2Value = (currentSelectedMode === 'examToGraduation') ? dateInput2.value : null;
+
+            if (!date1Value) {
+                formAlert.textContent = (currentSelectedMode === 'exam' || currentSelectedMode === 'examToGraduation') ? '請選擇大考日期！' : '請選擇畢業日期！';
+                return;
+            }
+            if (currentSelectedMode === 'examToGraduation' && !date2Value) {
+                formAlert.textContent = '請選擇畢業日期！';
+                return;
+            }
+            if (currentSelectedMode === 'examToGraduation' && date1Value && date2Value && new Date(date1Value) >= new Date(date2Value)) {
+                formAlert.textContent = '大考日期必須早於畢業日期！';
+                return;
+            }
+
+            const dataToSave = {
+                mode: currentSelectedMode,
+                date1: date1Value,
+            };
+            if (date2Value) {
+                dataToSave.date2 = date2Value;
+            }
+
+            localStorage.setItem('countdownAppData', JSON.stringify(dataToSave));
+            updateCountdownDisplay();
+
+            if (daysLeftElement.textContent && parseInt(daysLeftElement.textContent) >= 0) {
+                 daysLeftElement.classList.add('pulse');
+                 setTimeout(() => {
+                    daysLeftElement.classList.remove('pulse');
+                }, 2000);
+            }
+        });
+
+        resetCountdownBtn.addEventListener('click', () => {
+            localStorage.removeItem('countdownAppData');
+            dateInput1.value = '';
+            dateInput2.value = '';
+            formAlert.textContent = '';
+            updateCountdownDisplay(); 
+        });
+
+        // 頁面初始載入
+        window.addEventListener('load', () => {
+            const savedData = JSON.parse(localStorage.getItem('countdownAppData')) || {};
+            const initialMode = savedData.mode || 'exam'; 
+            countdownTypeSelect.value = initialMode; 
+            setupUIForSelectedMode(initialMode); 
+        });
+    </script>
+</body>
+</html>
+
